@@ -12,7 +12,7 @@ def compute_loss(y, tx, w):
     Returns:
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
-    return np.mean((y - tx.dot(w)) ** 2)
+    return np.sum((y - tx @ w)**2) / (2 * tx.shape[0])
 
 
 def least_squares(y, tx):
@@ -187,4 +187,22 @@ def logistic_regression(y, tx, w):
     """
     loss = calculate_loss(y, tx, w)
     gradient = calculate_gradient(y, tx, w)
+    return loss, gradient
+
+#REGULARIZED LOGISTIC REGRESSION
+def compute_loss_reg(y, tx, w, lambda_):
+    """compute the cost"""
+    l2_regularization = (lambda_ / 2) * np.sum(w**2)
+
+    return (- calculate_loss(y, tx, w) + (1/y.shape[0])*l2_regularization)
+
+def compute_gradient_reg(y, tx, w, lambda_):
+    """compute the gradient of loss"""
+    return calculate_gradient(y, tx, w) + lambda_ * w
+   
+def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
+    """return the loss, gradient of the loss, and hessian of the loss.
+    """
+    loss = compute_loss_reg(y, tx, w, lambda_)
+    gradient = calculate_gradient(y, tx, w, lambda_)
     return loss, gradient
