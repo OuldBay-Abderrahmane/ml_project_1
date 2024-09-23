@@ -12,7 +12,7 @@ def compute_loss(y, tx, w):
     Returns:
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
-    return np.sum((y - tx @ w)**2) / (2 * tx.shape[0])
+    return np.sum((y - tx @ w)**2) / 2
 
 
 def least_squares(y, tx):
@@ -29,7 +29,7 @@ def least_squares(y, tx):
     """
     wTX = np.dot(tx.T, tx)
     wTY = np.dot(tx.T, y)
-    w = np.linalg.solve(wTX, wTY)
+    w = np.linalg.lstsq(wTX, wTY)
     return w, compute_loss(y, tx, w)
 
 
@@ -182,7 +182,7 @@ def calculate_gradient(y, tx, w):
     return 1/y.shape[0] * tx.T.dot(sigmoids - y)
 
 
-def logistic_regression(y, tx, w):
+def logistic_regression(y, tx, w, max_iter, gamma):
     """return the loss, gradient of the loss, of the loss.
     """
     loss = calculate_loss(y, tx, w)
