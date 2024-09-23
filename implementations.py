@@ -14,7 +14,7 @@ def compute_loss(y, tx, w):
     Returns:
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
-    return np.mean((y - tx.dot(w)) ** 2)
+    return np.mean((y - tx.dot(w)) ** 2) /2
 
 
 def least_squares(y, tx):
@@ -54,11 +54,11 @@ def ridge_regression(y, tx, lambda_):
     (np.array([0.054303, 0.042713]), 0.03175)
     """
     lambda_prime = 2 * len(y) * lambda_
-    A = tx.T.dot(tx) + lambda_prime * np.identity(tx.shape[0])
+    A = tx.T.dot(tx) + lambda_prime * np.identity(tx.shape[1])
     b = tx.T.dot(y)
     w_ridge = np.linalg.solve(A, b)
 
-    return w_ridge, compute_loss(y, tx,w_ridge)
+    return np.array(np.round(w_ridge, 6)), np.round(compute_loss(y, tx,w_ridge), 6)
 
 
 def compute_gradient(y, tx, w):
