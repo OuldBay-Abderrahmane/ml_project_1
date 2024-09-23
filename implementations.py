@@ -233,12 +233,8 @@ def compute_gradient_reg(y, tx, w, lambda_):
 
 def compute_loss_reg(y, tx, w, lambda_):
     """Compute the regularized logistic regression loss."""
-    n = y.shape[0]  # number of samples
-    # Standard logistic loss
     loss = calculate_loss(y, tx, w)
-    # Add regularization term (L2 penalty)
-    l2_regularization = (lambda_ / 2) * np.sum(w**2)
-    return loss + l2_regularization / n
+    return loss + lambda_*np.sum(w**2)
    
 def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """return the loss, gradient of the loss, and hessian of the loss.
@@ -251,7 +247,7 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     for iter in range(max_iters):
         # Compute the regularized gradient and the regularized loss
         gradient = compute_gradient_reg(y, tx, w, lambda_)
-        loss = compute_loss_reg(y, tx, w, lambda_)
+        loss = compute_loss(y, tx, w, lambda_)
 
         # Update weights using gradient descent
         w = w - gamma * gradient
