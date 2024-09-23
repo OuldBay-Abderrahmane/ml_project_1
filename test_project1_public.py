@@ -168,7 +168,8 @@ def test_ridge_regression_lambda0(student_implementations, y, tx):
 
     expected_loss = 0.026942
     expected_w = np.array([0.218786, -0.053837])
-
+    print(loss, expected_loss)
+    print(w, expected_w)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     assert loss.ndim == 0
@@ -181,7 +182,8 @@ def test_ridge_regression_lambda1(student_implementations, y, tx):
 
     expected_loss = 0.03175
     expected_w = np.array([0.054303, 0.042713])
-
+    print(loss, expected_loss)
+    print(w, expected_w)
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
     assert loss.ndim == 0

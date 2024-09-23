@@ -104,7 +104,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
                 bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
             )
         )
-    return losses, ws
+    return ws, losses
 
 
 def compute_stoch_gradient(y, tx, w):
@@ -155,7 +155,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
                 bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
             )
         )
-    return losses, ws
+    return ws, losses
 
 def sigmoid(t):
     """apply sigmoid function on t.
@@ -205,5 +205,5 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """
     loss = compute_loss_reg(y, tx, w, lambda_)
     gradient = compute_gradient_reg(y, tx, w, lambda_)
-    return loss, gradient
+    return gradient, loss
 
