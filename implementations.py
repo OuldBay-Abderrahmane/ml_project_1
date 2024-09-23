@@ -29,7 +29,7 @@ def least_squares(y, tx):
         w: optimal weights, numpy array of shape (D,), D is the number of features.
         mse: scalar.
     >>> least_squares(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]))
-    (0.026942, np.array([0.218786, -0.053837]))
+    (np.array([0.218786, -0.053837]), 0.026942)
     """
     wTX = np.dot(tx.T, tx)
     wTY = np.dot(tx.T, y)
@@ -49,9 +49,9 @@ def ridge_regression(y, tx, lambda_):
         w_ridge: Ridge regression weights (numpy array).
 
     >>> ridge_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), 0)
-    (0.026942, np.array([0.218786, -0.053837]))
+    (np.array([0.218786, -0.053837]), 0.026942)
     >>> ridge_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), 1)
-    (0.03175, np.array([0.054303, 0.042713]))
+    (np.array([0.054303, 0.042713]), 0.03175)
     """
     lambda_prime = 2 * len(y) * lambda_
     A = tx.T.dot(tx) + lambda_prime * np.identity(tx.shape[0])
@@ -93,9 +93,9 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         losses: a list of length max_iters containing the loss value (scalar) for each iteration of GD
         ws: a list of length max_iters containing the model parameters as numpy arrays of shape (2, ), for each iteration of GD
     >>> mean_squared_error_gd(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 0, 0.1)
-    (0.026942, np.array([0.218786, -0.053837]))
+    (np.array([0.218786, -0.053837]), 0.026942)
     >>> mean_squared_error_gd(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 2, 0.1)
-    (0.051534, np.array([-0.050586, 0.203718]))
+    (np.array([-0.050586, 0.203718]), 0.051534 )
     
     """
     # Define parameters to store w and loss
@@ -199,9 +199,9 @@ def calculate_gradient(y, tx, w):
 def logistic_regression(y, tx, w, max_iter, gamma):
     """return the loss, gradient of the loss, of the loss.
     >>> logistic_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 0, 0.1)
-    (1.533694, np.array([0.463156, 0.939874]))
+    (np.array([0.463156, 0.939874]),1.533694)
     >>> logistic_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 2, 0.1)
-    (1.348358, np.array([0.378561, 0.801131]))
+    (np.array([0.378561, 0.801131]), 1.348358)
     """
     loss = calculate_loss(y, tx, w)
     gradient = calculate_gradient(y, tx, w)
@@ -221,9 +221,9 @@ def compute_gradient_reg(y, tx, w, lambda_):
 def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """return the loss, gradient of the loss, and hessian of the loss.
     >>> logistic_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 0, 0.1)
-    (1.407327, np.array([0.409111, 0.843996]))
+    (np.array([0.409111, 0.843996]), 1.407327)
     >>> logistic_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 2, 0.1)
-    (0.972165, np.array([0.216062, 0.467747]))
+    (np.array([0.216062, 0.467747]), 0.972165)
     """
     loss = compute_loss_reg(y, tx, w, lambda_)
     gradient = compute_gradient_reg(y, tx, w, lambda_)
