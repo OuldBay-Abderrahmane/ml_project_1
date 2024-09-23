@@ -155,3 +155,40 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
             )
         )
     return losses, ws
+
+def sigmoid(t):
+    """apply sigmoid function on t.
+    Args:
+        t: scalar or numpy array
+
+    Returns:
+        scalar or numpy array
+    """
+    return 1/(1 + np.exp(-t)) 
+
+
+def calculate_loss(y, tx, w):
+    """compute the cost by negative log likelihood.
+    """
+    assert y.shape[0] == tx.shape[0]
+    assert tx.shape[1] == w.shape[0]
+
+    z = np.dot(tx, w)
+    return (1/y.shape[0])*np.sum(np.log(1 + np.exp(z)) - y * z)
+
+
+def calculate_gradient(y, tx, w):
+    """compute the gradient of loss.
+    """
+    z = tx.dot(w) 
+    sigmoids = sigmoid(z)
+
+    return 1/y.shape[0] * tx.T.dot(sigmoids - y)
+
+
+def logistic_regression(y, tx, w):
+    """return the loss, gradient of the loss, and hessian of the loss.
+    """
+    loss = calculate_loss(y, tx, w)
+    gradient = calculate_gradient(y, tx, w)
+    return loss, gradient
