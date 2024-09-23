@@ -12,7 +12,7 @@ def compute_loss(y, tx, w):
     Returns:
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
-    return np.sum((y - tx @ w)**2) / (tx.shape[0])
+    return np.mean((y - tx.dot(w)) ** 2)
 
 
 def least_squares(y, tx):
