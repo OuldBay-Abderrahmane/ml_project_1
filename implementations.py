@@ -225,12 +225,12 @@ def logistic_regression(y, tx, w, max_iter, gamma):
 def compute_loss_reg(y, tx, w, lambda_):
     """Compute the regularized logistic regression loss."""
     loss = calculate_loss(y, tx, w)
-    return loss + lambda_*np.sum(w**2)
+    return loss + lambda_ * np.squeeze(w.T.dot(w))
    
 def compute_gradient_reg(y, tx, w, lambda_):
     """Compute the regularized gradient for logistic regression."""
     gradient = calculate_gradient(y, tx, w)
-    return gradient + lambda_ * w 
+    return gradient + 2 * lambda_ * w
    
 def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """return the loss, gradient of the loss, and hessian of the loss.
@@ -243,13 +243,13 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     for iter in range(max_iters):
         # Compute the gradient and the loss
         gradient = compute_gradient_reg(y, tx, w, lambda_)
-        loss = calculate_loss(y, tx, w)
+        loss = compute_loss_reg(y, tx, w)
 
         # Update weights
         w = w - gamma * gradient
 
     # After all iterations, return the final weights and loss
-    final_loss = calculate_loss(y, tx, w)
+    final_loss = compute_loss_reg(y, tx, w)
     return w, final_loss
 
 
