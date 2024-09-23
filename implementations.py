@@ -159,7 +159,6 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
 
 def sigmoid(t):
     """apply sigmoid function on t.
-
     """
     return 1/(1 + np.exp(-t)) 
 
@@ -184,7 +183,7 @@ def calculate_gradient(y, tx, w):
 
 
 def logistic_regression(y, tx, w):
-    """return the loss, gradient of the loss, and hessian of the loss.
+    """return the loss, gradient of the loss, of the loss.
     """
     loss = calculate_loss(y, tx, w)
     gradient = calculate_gradient(y, tx, w)
