@@ -3,7 +3,7 @@ from helpers import batch_iter
 import doctest
 
 
-def compute_loss(y, tx, w):
+def compute_loss_mse(y, tx, w):
     """Calculate the loss using either MSE or MAE.
 
     Args:
@@ -34,7 +34,7 @@ def least_squares(y, tx):
     wTX = np.dot(tx.T, tx)
     wTY = np.dot(tx.T, y)
     w = np.linalg.solve(wTX, wTY)
-    return w, compute_loss(y, tx, w)
+    return w, compute_loss_mse(y, tx, w)
 
 
 def ridge_regression(y, tx, lambda_):
@@ -58,10 +58,11 @@ def ridge_regression(y, tx, lambda_):
     b = tx.T.dot(y)
     w_ridge = np.linalg.solve(A, b)
 
-    return np.array(np.round(w_ridge, 6)), np.round(compute_loss(y, tx, w_ridge), 6)
+    # fix
+    return np.array(np.round(w_ridge, 6)), np.round(compute_loss_mse(y, tx, w_ridge), 6)
 
 
-def compute_gradient(y, tx, w):
+def compute_gradient_mse(y, tx, w):
     """Computes the gradient at w.
 
     Args:
@@ -104,8 +105,8 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         # compute gradient and loss
-        loss = compute_loss(y, tx, w)
-        w_g = compute_gradient(y, tx, w)
+        loss = compute_loss_mse(y, tx, w)
+        w_g = compute_gradient_mse(y, tx, w)
 
         # update w by gradient
         w = w - gamma * w_g
@@ -118,10 +119,10 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         #        bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
         #    )
         # )
-    return ws[-1], compute_loss(y, tx, ws[-1])
+    return ws[-1], compute_loss_mse(y, tx, ws[-1])
 
 
-def compute_stoch_gradient(y, tx, w):
+def compute_stoch_gradient_mse(y, tx, w):
     """Compute a stochastic gradient at w from just a few examples n and their corresponding y_n labels.
 
     Args:
@@ -157,10 +158,10 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
 
     for n_iter in range(max_iters):
         for minibatch_y, minibatch_tx in batch_iter(y, tx, batch_size):
-            stochastic_gradient = compute_stoch_gradient(
+            stochastic_gradient = compute_stoch_gradient_mse(
                 minibatch_y, minibatch_tx, w)
             w -= gamma * stochastic_gradient
-            loss = compute_loss(minibatch_y, minibatch_tx, w)
+            loss = compute_loss_mse(minibatch_y, minibatch_tx, w)
             losses.append(loss)
 
         ws.append(w)
@@ -170,7 +171,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
                 bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
             )
         )
-    return ws[-1], compute_loss(y, tx, ws[-1])
+    return ws[-1], compute_loss_mse(y, tx, ws[-1])
 
 
 def sigmoid(t):
@@ -179,7 +180,7 @@ def sigmoid(t):
     return 1/(1 + np.exp(-t))
 
 
-def calculate_loss(y, tx, w):
+def compute_loss_neg_log_likelihood(y, tx, w):
     """compute the cost by negative log likelihood.
     """
     assert y.shape[0] == tx.shape[0]
@@ -189,7 +190,7 @@ def calculate_loss(y, tx, w):
     return (1/y.shape[0])*np.sum(np.log(1 + np.exp(z)) - y * z)
 
 
-def calculate_gradient(y, tx, w):
+def compute_gradient_neg_log_likelihood(y, tx, w):
     """compute the gradient of loss.
     """
     z = tx.dot(w)
@@ -212,21 +213,21 @@ def logistic_regression(y, tx, w, max_iter, gamma):
 
     for iter in range(max_iter):
         # Compute gradient and loss
-        gradient = calculate_gradient(y, tx, w)
-        loss = calculate_loss(y, tx, w)
+        gradient = compute_gradient_neg_log_likelihood(y, tx, w)
+        loss = compute_loss_neg_log_likelihood(y, tx, w)
 
         # Update weights
         w = w - gamma * gradient
 
     # After all iterations, return final gradient and loss
-    gradient = calculate_gradient(y, tx, w)
-    loss = calculate_loss(y, tx, w)
+    gradient = compute_gradient_neg_log_likelihood(y, tx, w)
+    loss = compute_loss_neg_log_likelihood(y, tx, w)
     return w, loss
 
 
 def compute_loss_reg(y, tx, w, lambda_):
     """Compute the regularized logistic regression loss."""
-    loss = calculate_loss(y, tx, w)
+    loss = compute_loss_neg_log_likelihood(y, tx, w)
 
     print("compute_loss", loss, "lambda func", lambda_ * np.sum(w)**2)
     # return loss + lambda_*np.sum(w)**2
@@ -235,7 +236,7 @@ def compute_loss_reg(y, tx, w, lambda_):
 
 def compute_gradient_reg(y, tx, w, lambda_):
     """Compute the regularized gradient for logistic regression."""
-    gradient = calculate_gradient(y, tx, w)
+    gradient = compute_gradient_neg_log_likelihood(y, tx, w)
     return gradient + lambda_ * 2 * w
 
 
