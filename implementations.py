@@ -222,18 +222,15 @@ def logistic_regression(y, tx, w, max_iter, gamma):
     return w, loss
 
 
-
-#REGULARIZED LOGISTIC REGRESSION
-def compute_gradient_reg(y, tx, w, lambda_):
-    """Compute the regularized gradient for logistic regression."""
-    gradient = calculate_gradient(y, tx, w)  # Standard gradient
-    # Add regularization term (scaled by number of samples)
-    return gradient + lambda_ * w
-
 def compute_loss_reg(y, tx, w, lambda_):
     """Compute the regularized logistic regression loss."""
     loss = calculate_loss(y, tx, w)
     return loss + lambda_*np.sum(w**2)
+   
+def compute_gradient_reg(y, tx, w, lambda_):
+    """Compute the regularized gradient for logistic regression."""
+    gradient = calculate_gradient(y, tx, w)
+    return gradient + lambda_ * w 
    
 def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """return the loss, gradient of the loss, and hessian of the loss.
@@ -244,17 +241,16 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """
 
     for iter in range(max_iters):
-        # Compute the regularized gradient and the regularized loss
+        # Compute the gradient and the loss
         gradient = compute_gradient_reg(y, tx, w, lambda_)
-        loss = compute_loss_reg(y, tx, w, lambda_)
+        loss = calculate_loss(y, tx, w)
 
-        # Update weights using gradient descent
+        # Update weights
         w = w - gamma * gradient
 
-    # After all iterations, return the final weights and regularized loss
-    final_loss = compute_loss_reg(y, tx, w, lambda_)
+    # After all iterations, return the final weights and loss
+    final_loss = calculate_loss(y, tx, w)
     return w, final_loss
-
 
 
 doctest.testmod(optionflags=doctest.ELLIPSIS)
