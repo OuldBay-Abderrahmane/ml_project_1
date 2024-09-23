@@ -226,10 +226,9 @@ def logistic_regression(y, tx, w, max_iter, gamma):
 #REGULARIZED LOGISTIC REGRESSION
 def compute_gradient_reg(y, tx, w, lambda_):
     """Compute the regularized gradient for logistic regression."""
-    n = y.shape[0]  # number of samples
     gradient = calculate_gradient(y, tx, w)  # Standard gradient
     # Add regularization term (scaled by number of samples)
-    return gradient + lambda_ * w / n
+    return gradient + lambda_ * w
 
 def compute_loss_reg(y, tx, w, lambda_):
     """Compute the regularized logistic regression loss."""
