@@ -203,9 +203,25 @@ def logistic_regression(y, tx, w, max_iter, gamma):
     >>> logistic_regression(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0]), 2, 0.1)
     (np.array([0.378561, 0.801131]), 1.348358)
     """
-    loss = calculate_loss(y, tx, w)
+
+    ws = [w]
+    losses = []
+    w = w
+    
+    for iter in range(max_iter):
+        # Compute gradient and loss
+        gradient = calculate_gradient(y, tx, w)
+        loss = calculate_loss(y, tx, w)
+        
+        # Update weights
+        w = w - gamma * gradient
+        
+    # After all iterations, return final gradient and loss
     gradient = calculate_gradient(y, tx, w)
-    return gradient, loss
+    loss = calculate_loss(y, tx, w)
+    return w, loss
+
+
 
 #REGULARIZED LOGISTIC REGRESSION
 def compute_loss_reg(y, tx, w, lambda_):
