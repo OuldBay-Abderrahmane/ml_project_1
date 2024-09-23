@@ -49,3 +49,4 @@ def ridge_regression(y, tx, lambda_):
     w_ridge = np.linalg.solve(A, b)
 
     return w_ridge
+
