@@ -247,7 +247,7 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     for iter in range(max_iters):
         # Compute the regularized gradient and the regularized loss
         gradient = compute_gradient_reg(y, tx, w, lambda_)
-        loss = compute_loss(y, tx, w, lambda_)
+        loss = compute_loss_reg(y, tx, w, lambda_)
 
         # Update weights using gradient descent
         w = w - gamma * gradient
