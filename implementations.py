@@ -121,7 +121,7 @@ def compute_stoch_gradient(y, tx, w):
     return -tx.T.dot(y - tx.dot(w))
 
 
-def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
+def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
