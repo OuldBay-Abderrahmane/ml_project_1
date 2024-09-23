@@ -187,7 +187,7 @@ def logistic_regression(y, tx, w, max_iter, gamma):
     """
     loss = calculate_loss(y, tx, w)
     gradient = calculate_gradient(y, tx, w)
-    return loss, gradient
+    return gradient, loss
 
 #REGULARIZED LOGISTIC REGRESSION
 def compute_loss_reg(y, tx, w, lambda_):
