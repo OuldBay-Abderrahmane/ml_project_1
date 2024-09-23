@@ -225,7 +225,10 @@ def logistic_regression(y, tx, w, max_iter, gamma):
 def compute_loss_reg(y, tx, w, lambda_):
     """Compute the regularized logistic regression loss."""
     loss = calculate_loss(y, tx, w)
-    return loss + lambda_*np.sum(w)**2
+
+    print("compute_loss", loss, "lambda func", lambda_ * np.sum(w)**2)
+    # return loss + lambda_*np.sum(w)**2
+    return loss
    
 def compute_gradient_reg(y, tx, w, lambda_):
     """Compute the regularized gradient for logistic regression."""
