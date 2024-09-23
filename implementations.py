@@ -1,5 +1,6 @@
 import numpy as np
 from helpers import batch_iter
+import doctest
 
 
 def compute_loss(y, tx, w):
@@ -32,7 +33,7 @@ def least_squares(y, tx):
     """
     wTX = np.dot(tx.T, tx)
     wTY = np.dot(tx.T, y)
-    w = np.linalg.lstsq(wTX, wTY)
+    w = np.linalg.solve(wTX, wTY)
     return w, compute_loss(y, tx, w)
 
 
@@ -55,7 +56,7 @@ def ridge_regression(y, tx, lambda_):
     lambda_prime = 2 * len(y) * lambda_
     A = tx.T.dot(tx) + lambda_prime * np.identity(tx.shape[0])
     b = tx.T.dot(y)
-    w_ridge = np.linalg.lstsq(A, b)
+    w_ridge = np.linalg.solve(A, b)
 
     return w_ridge, compute_loss(y, tx,w_ridge)
 
@@ -148,8 +149,6 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
     Returns:
         losses: a list of length max_iters containing the loss value (scalar) for each iteration of SGD
         ws: a list of length max_iters containing the model parameters as numpy arrays of shape (2, ), for each iteration of SGD
-    >>> test_mean_squared_error_sgd({Y[:1]}, {TX[:1]}, np.array([0.5, 1.0]), 0, 0.1)
-    (0.844595, np.array([0.063058, 0.39208]))
     """
 
     ws = [initial_w]
@@ -230,3 +229,6 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     gradient = compute_gradient_reg(y, tx, w, lambda_)
     return gradient, loss
 
+
+
+doctest.testmod(optionflags=doctest.ELLIPSIS)
