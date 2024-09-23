@@ -104,9 +104,7 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma):
                 bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
             )
         )
-
     return losses, ws
-
 
 
 def compute_stoch_gradient(y, tx, w):
