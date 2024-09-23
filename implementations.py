@@ -205,5 +205,6 @@ def reg_logistic_regression(y, tx, lambda_, w, max_iters, gamma):
     """return the loss, gradient of the loss, and hessian of the loss.
     """
     loss = compute_loss_reg(y, tx, w, lambda_)
-    gradient = calculate_gradient(y, tx, w, lambda_)
+    gradient = compute_gradient_reg(y, tx, w, lambda_)
     return loss, gradient
+
