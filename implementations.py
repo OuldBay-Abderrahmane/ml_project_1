@@ -113,12 +113,12 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         # store w and loss
         ws.append(w)
         losses.append(loss)
-        print(
-            "GD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
-                bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
-            )
-        )
-    return ws, losses
+        #print(
+        #    "GD iter. {bi}/{ti}: loss={l}, w0={w0}, w1={w1}".format(
+        #        bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
+        #    )
+        #)
+    return ws[-1], compute_loss(y, tx, ws[-1])
 
 
 def compute_stoch_gradient(y, tx, w):
@@ -169,7 +169,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
                 bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]
             )
         )
-    return ws, losses
+    return ws[-1], compute_loss(y, tx, ws[-1])
 
 def sigmoid(t):
     """apply sigmoid function on t.
