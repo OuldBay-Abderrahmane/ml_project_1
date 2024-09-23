@@ -19,7 +19,8 @@ USE_SSH = False
 
 def pytest_addoption(parser):
     # fmt: off
-    parser.addoption("--github_link", action="store", required=True)
+    parser.addoption("--local_path", action="store", default=None, help="Local path to the project")
+    parser.addoption("--github_link", action="store", default=None, help="Github link to the project")
     parser.addoption("--clone_directory", default="github_workdir", help="Directory to clone the repository into.")
     parser.addoption("--commit_hash", default=None, help="Specify a given commit to clone.")
     parser.addoption("--keep_repo", action="store_true", help="Do not delete the cloned repo after the tests.")
@@ -38,10 +39,16 @@ def pytest_configure(config):
     KEEP_REPO = config.option.keep_repo
     global USE_SSH
     USE_SSH = config.option.use_ssh
+    global LOCAL
+    LOCAL = config.option.local_path
 
 
 @pytest.fixture(scope="session")
 def github_repo_path() -> pathlib.Path:
+    if LOCAL is not None:
+        yield pathlib.Path(LOCAL).resolve()
+        return
+
     workdir = pathlib.Path(CLONE_DIRECTORY).resolve()
 
     # Support giving a directory path instead of github link
@@ -60,7 +67,7 @@ def github_repo_path() -> pathlib.Path:
             commit = COMMIT_HASH
 
         if USE_SSH and url.startswith("https://github.com/"):
-            url = "git@github.com:" + url[len("https://github.com/") :]
+            url = "git@github.com:" + url[len("https://github.com/"):]
 
         repo = git.Repo.clone_from(url, to_path=workdir)
 

@@ -242,8 +242,8 @@ def test_reg_logistic_regression(student_implementations, y, tx, initial_w):
     print("loss", loss, "correct", expected_loss)
     print("w", w, "correct", expected_w)
 
-    np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
-    np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
+    np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL, verbose=True)
+    np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL, verbose=True)
     assert loss.ndim == 0
     assert w.shape == expected_w.shape
 
@@ -260,7 +260,7 @@ def test_reg_logistic_regression_0_step(student_implementations, y, tx):
     print("loss", loss, "correct", expected_loss)
     print("w", w, "correct", expected_w)
 
-    np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
-    np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
+    np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL, verbose=True)
+    np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL, verbose=True)
     assert loss.ndim == 0
     assert w.shape == expected_w.shape
