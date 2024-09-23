@@ -70,7 +70,7 @@ def compute_gradient(y, tx, w):
     return - 1/tx.shape[0] * error @ tx
 
 
-def gradient_descent(y, tx, initial_w, max_iters, gamma):
+def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """The Gradient Descent (GD) algorithm.
 
     Args:
@@ -120,7 +120,8 @@ def compute_stoch_gradient(y, tx, w):
     """
     return -tx.T.dot(y - tx.dot(w))
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
+
+def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
