@@ -159,11 +159,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma, batch_size=1):
 
 def sigmoid(t):
     """apply sigmoid function on t.
-    Args:
-        t: scalar or numpy array
 
-    Returns:
-        scalar or numpy array
     """
     return 1/(1 + np.exp(-t)) 
 
