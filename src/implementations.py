@@ -192,4 +192,4 @@ def logistic_regression(y, tx, w):
     """
     loss = calculate_loss(y, tx, w)
     gradient = calculate_gradient(y, tx, w)
-    return loss, gradient
+    return gradient, loss

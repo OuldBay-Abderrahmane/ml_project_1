@@ -194,7 +194,8 @@ def test_logistic_regression_0_step(student_implementations, y, tx):
     w, loss = student_implementations.logistic_regression(y, tx, expected_w, 0, GAMMA)
 
     expected_loss = 1.533694
-
+    print(loss, expected_loss)
+    print(w, expected_w)
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
     assert loss.ndim == 0
@@ -209,7 +210,8 @@ def test_logistic_regression(student_implementations, y, tx, initial_w):
 
     expected_loss = 1.348358
     expected_w = np.array([0.378561, 0.801131])
-
+    print(loss, expected_loss)
+    print(w, expected_w)
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
     assert loss.ndim == 0
