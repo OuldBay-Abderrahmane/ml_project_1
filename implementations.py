@@ -45,9 +45,9 @@ def ridge_regression(y, tx, lambda_):
         w_ridge: Ridge regression weights (numpy array).
     """
     lambda_prime = 2 * len(y) * lambda_
-    A = tx.T.dot(tx) + lambda_prime * np.identity(tx.shape[1])
-    b = tx.T.dot(y)
-    w_ridge = np.linalg.solve(A, b)
+    A = tx.dot(tx) + lambda_prime * np.identity(tx.shape[0])
+    b = tx.dot(y)
+    w_ridge = np.linalg.lstsq(A, b)
 
     return w_ridge
 
